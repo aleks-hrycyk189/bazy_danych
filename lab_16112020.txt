@@ -1,0 +1,84 @@
+#Laboratorium 16.11.2020
+
+zadanie 1. CICHA WODA
+
+SELECT * FROM postac ORDER BY nazwa;
+
+SELECT * FROM postac ORDER BY data_ur;
+
+DELETE FROM postac WHERE nazwa='wiking Arnold' AND data_ur='1854-12-05';
+
+SELECT * FROM postac ORDER BY data_ur DESC;
+
+DESCRIBE postac;
+
+SELECT * FROM postac WHERE rodzaj= 'wiking' AND nazwa!='Bjorn' ORDER BY data_ur;
+
+SHOW CREATE TABLE postac;
+
+ALTER TABLE postac DROP PRIMARY KEY; 
+
+ALTER TABLE postac MODIFY id_postaci INT;
+
+SHOW CREATE TABLE walizka;
+
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+
+ALTER TABLE postac MODIFY id_postaci INT;
+
+ALTER TABLE postac DROP PRIMARY KEY;
+
+
+
+# zadanie 2. SYRENKA
+
+ALTER TABLE postac ADD COLUMN pesel VARCHAR(11) NOT NULL ;
+
+DESC postac;
+
+SELECT* FROM postac;
+
+ALTER TABLE postac DROP pesel;
+
+ALTER TABLE postac ADD COLUMN pesel VARCHAR(11);
+
+UPDATE postac SET pesel='74022345687' +id_postaci;
+
+SELECT * FROM postac;
+
+ALTER TABLE postac ADD PRIMARY KEY(pesel);
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking', 'ptak','kobieta', 'syrena');
+
+INSERT INTO postac(id_postaci, nazwa, rodzaj, data_ur, wiek, pesel) VALUES
+(8,'Gertruda Nieszczera', 'syrena', '1847-02-14', 145, '47021456879');
+
+
+
+# zadanie 3. PRZECHYŁY
+
+SELECT nazwa FROM postac WHERE nazwa LIKE '%a%';
+
+UPDATE jaki_statek FROM postac SET WHERE jaki_statek='lodz_z_gokstad' nazwa LIKE '%a%';
+
+SELECT * FROM postac;
+
+SELECT * FROM statek;
+
+UPDATE statek SET max_ladownosc=max_ladownosc*0.7 WHERE data_wodowania >= '1901-01-01' AND data_wodowania < '2001-01-01';
+
+UPDATE  postac SET jaki_statek='lodz_z_gokstad' WHERE nazwa LIKE '%a%';
+
+SELECT* FROM postac;
+
+UPDATE postac SET jaki_statek=NULL WHERE rodzaj='kobieta';
+
+SELECT* FROM postac;
+
+UPDATE postac SET jaki_statek=NULL WHERE rodzaj='syrena';
+
+SELECT* FROM postac;
