@@ -1,0 +1,165 @@
+# lab 18.11.2020
+
+
+###ZADANIE 3 PRZECHYŁY cd.
+c) 
+
+SHOW TABLES;
+
+SELECT* FROM postac;
+
+ALTER TABLE postac ADD CHECK(wiek<=1000);
+
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek, pesel) VALUES 
+(8, 'syrenka','syrena', '1874-12-24', 1200, 74122402365);
+
+
+SHOW CREATE TABLE postac;
+
+
+
+###ZADANIE 4 WĄŻ LOKO
+
+a) 
+
+ALTER TABLE postac MODIFY rodzaj ENUM('wiking','kobieta','ptak','syrena','waz');
+
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek, pesel) VALUES 
+(8, 'Loko','waz', '1874-12-24', 78, 74122402365);
+
+SELECT* FROM postac;
+
+b) 
+
+CREATE TABLE marynarz_1 SELECT * FROM postac;  (with dates, without primary/ foreign keys)
+
+|||
+
+CREATE TABLE marynarz LIKE postac;
+
+INSERT INTO marynarz SELECT * FROM postac WHERE jaki_statek='lodz_z_gokstad';
+
+SELECT * FROM marynarz_1;
+
+SELECT* FROM marynarz;
+
+SHOW CREATE TABLE marynarz_1;
+
+SHOW CREATE TABLE marynarz;
+
+
+
+
+###ZADANIE 5. SZTORM
+
+a)
+UPDATE postac SET jaki_statek=NULL WHERE jaki_statek='lodz_z_gokstad';
+UPDATE postac SET id_postaci=9 WHERE nazwa= 'Gertruda Nieszczera';
+
+b) 
+DELETE FROM postac WHERE nazwa='wiking Arnold';
+DROP sluzy do struktury
+
+c) 
+SELECT* FROM statek;
+DELETE FROM statek WHERE nazwa_statku= 'lodz_z_gokstad';
+DELETE FROM statek WHERE nazwa_statku= 'lodz_z_tune';
+d) 
+SHOW CREATE TABLE postac;
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
+DROP TABLE statek;
+
+e)
+CREATE TABLE zwierz(
+id_zwierza INT PRIMARY KEY AUTO_INCREMENT,
+nazwa VARCHAR(40),
+wiek INT);
+
+f)
+SELECT* FROM postac;
+SELECT id_postaci, nazwa, wiek FROM postac;
+INSERT INTO zwierz(id_zwierza, nazwa, wiek) SELECT id_postaci, nazwa, wiek FROM postac WHERE rodzaj='ptak' ;
+
+
+
+
+##################################
+##### LAB(05)#####################
+
+SHOW DATABASES;
+USE WIKINGOWIE;
+SHOW TABLES;
+ 
+ ### ZADANIE 1. ROZBITEK
+1.
+
+SELECT * FROM wikingowie.kreatura;
+CREATE TABLE kreatura LIKE wikingowie.kreatura;
+INSERT INTO kreatura SELECT * FROM wikingowie.kreatura;
+
+SELECT * FROM wikingowie.zasob;
+CREATE TABLE zasob LIKE wikingowie.zasob;
+INSERT INTO zasob SELECT * FROM wikingowie.zasob;
+
+SELECT * FROM wikingowie.ekwipunek;
+CREATE TABLE ekwipunek LIKE wikingowie.ekwipunek;
+INSERT INTO ekwipunek SELECT * FROM wikingowie.ekwipunek;
+
+SHOW CREATE TABLE kreatura;
+
+SHOW CREATE TABLE zasob;
+
+SHOW CREATE TABLE ekwipunek;
+
+2. 
+SELECT * FROM zasob;
+3.
+SELECT * FROM zasob WHERE rodzaj='jedzenie';
+4.
+#SELECT idZasobu, ilosc FROM ekwipunek WHERE idKreatury=3 or idKreatury=3 or.....
+
+SELECT idZasobu, ilosc FROM ekwipunek WHERE idKreatury IN (1,3,5);
+
+
+
+###ZADANIE 2. KOKOS
+
+1.
+SELECT * FROM kreatura;
+SELECT * FROM kreatura WHERE rodzaj!='wiedzma' AND udzwig>=50;
+
+2.
+SELECT* FROM zasob;
+SELECT * FROM zasob WHERE waga BETWEEN 2 AND 5;
+
+3.
+SELECT * FROM kreatura;
+SELECT * FROM kreatura WHERE nazwa LIKE '%or%' AND udzwig BETWEEN  30 AND 70;
+
+
+
+###ZADANIE 3. HAMAK
+
+1.
+SELECT month(data_ur) FROM postac;
+
+SELECT * FROM zasob WHERE month (dataPozyskania) IN (07,08);
+
+2.
+SELECT * FROM zasob WHERE rodzaj!='NULL' ORDER BY waga ASC;
+
+3.
+SELECT* FROM kreatura;
+
+SELECT* FROM kreatura ORDER BY dataUr LIMIT 5;
+
+
+
+###ZADANIE 4. ZŁOTA RYBKA
+
+a)
+SELECT DISTINCT rodzaj FROM zasob;
+
+b)
+SELECT * FROM kreatura;
+SELECT CONCAT(nazwa,"-",rodzaj) AS razem FROM kreatura WHERE rodzaj LIKE 'wi%';
