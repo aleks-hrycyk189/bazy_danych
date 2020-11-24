@@ -1,0 +1,79 @@
+SHOW TABLES;
+
+   ### ZADANIE 4. ZŁOTA RYBKA 
+A)
+
+SELECT DISTINCT rodzaj FROM zasob;
+
+B)
+
+SELECT CONCAT(nazwa, " ma kota") FROM kreatura;
+
+SELECT CONCAT(nazwa,"-",rodzaj) AS razem FROM kreatura WHERE rodzaj LIKE 'wi%';
+
+C)
+SELECT * FROM zasob;
+
+SELECT (ilosc* waga) AS calosc FROM zasob WHERE dataPozyskania BETWEEN '2000-01-01' AND '2007-01-01';
+
+   
+   ### ZADANIE 5. TAWRDY SEN
+
+A)
+SELECT nazwa, ilosc*waga*0.7 AS masa_calkowita, ilosc*waga*0.3 AS odpadki FROM zasob;
+
+b)
+
+SELECT DISTINCT nazwa FROM zasob WHERE rodzaj is NULL;
+
+C)
+
+SELECT DISTINCT rodzaj, nazwa FROM zasob WHERE nazwa LIKE 'Ba%' OR nazwa LIKE '%or' ORDER BY rodzaj ASC;
+
+SELECT DISTINCT rodzaj, nazwa FROM zasob;
+
+
+
+            LAB_06
+
+
+  ### ZADANIE 1. SKWAREK
+a)
+
+SELECT * FROM kreatura;
+
+SELECT AVG(waga) FROM kreatura;
+
+SELECT AVG(waga) FROM kreatura WHERE rodzaj= 'wiking';
+
+b)
+SELECT COUNT(*), AVG(waga), rodzaj FROM kreatura GROUP BY rodzaj;
+
+c)
+SELECT* FROM kreatura;
+
+SELECT rodzaj,avg(YEAR(CURRENT_TIMESTAMP)-YEAR(dataUr)) AS 'sredni wiek' FROM kreatura GROUP BY rodzaj ;
+
+
+
+   ### ZADANIE 2. DYMEK
+
+A)
+SELECT(rodzaj), SUM(waga*ilosc) FROM zasob GROUP BY rodzaj;
+B)
+SELECT * FROM zasob;
+
+SELECT rodzaj, SUM(ilosc) FROM zasob GROUP BY rodzaj HAVING SUM(ilosc)>100;
+
+SELECT nazwa, AVG(waga) FROM zasob WHERE ilosc>=4 GROUP BY nazwa HAVING AVG(waga)>10;
+
+
+C)
+
+SELECT nazwa, AVG(waga) FROM zasob 4 GROUP BY nazwa HAVING AVG(waga)>10 AND SUM(ilosc)>=1;
+
+poprawne:
+distinct, count
+
+SELECT rodzaj, COUNT(DISTINCT(nazwa)) FROM zasob GROUP BY rodzaj HAVING SUM (ilosc) >1;
+SELECT rodzaj, COUNT(DISTINCT(nazwa)) FROM zasob GROUP BY rodzaj WHERE  ilosc >1;
