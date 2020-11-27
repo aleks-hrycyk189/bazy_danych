@@ -1,0 +1,70 @@
+LAB_ 25112020
+
+        ### ZADANIE 3. PIEPRZ
+		
+A)
+SELECT k.nazwa, k.idKreatury, e.idKreatury, e.idZasobu, e.ilosc FROM kreatura k, ekwipunek e;
+SELECT 19*28;
+SELECT k.nazwa, k.idKreatury, e.idKreatury, e.idZasobu, e.ilosc FROM kreatura k, ekwipunek e WHERE k.idKreatury=e.idKreatury;
+SELECT k.nazwa, k.idKreatury, e.idKreatury, e.idZasobu, e.ilosc FROM kreatura AS k INNER JOIN ekwipunek e;
+SELECT k.nazwa, k.idKreatury, e.idKreatury, e.idZasobu, e.ilosc FROM kreatura AS k INNER JOIN ekwipunek e ON k.idKreatury=e.idKreatury;
+
+
+SELECT k.nazwa, SUM(e.ilosc) FROM kreatura AS k INNER JOIN ekwipunek e ON k.idKreatury=e.idKreatury GROUP BY k.nazwa;
+
+b)
+SELECT * FROM kreatura;
+SELECT * FROM ekwipunek;
+SELECT * FROM zasob;
+
+SELECT * FROM kreatura k, ekwipunek e WHERE k.idKreatury= e.idKreatury;
+
+SELECT k.nazwa, z.nazwa FROM kreatura AS k, zasob AS z, ekwipunek AS e WHERE k.idKreatury=e.idKreatury AND z.idZasobu=e.idZasobu;
+
+c)
+SELECT * FROM kreatura k LEFT JOIN ekwipunek e ON k.idKreatury=e.idKreatury;
+SELECT * FROM kreatura k LEFT JOIN ekwipunek e ON k.idKreatury=e.idKreatury WHERE e.idKreatury is NULL;
+SELECT * FROM kreatura k LEFT JOIN ekwipunek e ON k.idKreatury=e.idKreatury WHERE e.idKreatury is not NULL;
+
+SELECT k.nazwa FROM kreatura k
+LEFT JOIN ekwipunek e
+ON k.idKreatury= e.idKreatury
+WHERE e.idKreatury is NULL;
+
+# z podzapytaniem
+
+SELECT DISTINCT (idZasobu) from ekwipunek;
+
+
+SELECT idKreatury FROM kreatura WHERE idKreatury NOT IN (SELECT idKreatury FROM ekwipunek WHERE idKreatury IS NOT NULL);
+
+
+### ZADANIE 4.  DZIADEK
+A)
+
+SELECT k.nazwa, k.idKreatury, e.idKreatury FROM kreatura k NATURAL JOIN ekwipunek e;
+
+SELECT k.nazwa, k.idKreatury, e.idKreatury FROM kreatura k NATURAL JOIN ekwipunek e INNER JOIN zasob z on e.idZasobu= z.idZasobu;
+
+SELECT k.nazwa, k.idKreatury, e.idKreatury FROM kreatura k NATURAL JOIN ekwipunek e INNER JOIN zasob z on e.idZasobu= z.idZasobu WHERE rodzaj='wiking';
+
+SELECT k.nazwa, z.nazwa FROM kreatura AS k NATURAL JOIN ekwipunek e INNER JOIN zasob z ON k.idKreatury=e.idKreatury AND e.idZasobu=z.idZasobu
+WHERE k.rodzaj= 'wiking' AND k.dataUr BETWEEN '1670-01-01' AND '1679-12-31';
+
+B)
+SELECT k.nazwa FROM kreatura AS k NATURAL JOIN ekwipunek e INNER JOIN zasob z ON e.idZasobu=z.idZasobu 
+WHERE z.rodzaj='jedzenie' ORDER BY k.dataUr DESC limit 5;
+
+c)
+SELECT CONCAT (k1.nazwa,' - ',k2.nazwa) FROM kreatura k1, kreatura k2 WHERE k1.idKreatury=k2.idKreatury+5;
+
+*** SELECT CONCAT (k.nazwa, " - ", k2.nazwa) FROM kreatura
+
+  ### ZADANIE 5. ZŁA NOWINA
+  
+SELECT k.rodzaj, AVG(z.ilosc*z.waga), SUM(e.ilosc) AS ilosc FROM kreatura AS k INNER JOIN ekwipunek AS e 
+INNER JOIN zasob AS z ON k.idKreatury=e.idKreatury AND e.idZasobu=z.idZasobu WHERE k.rodzaj!='malpa' AND k.rodzaj!='waz' 
+GROUP BY k.rodzaj HAVING ilosc<30;
+
+B)select nazwa, min/ max
+DO DOMU
