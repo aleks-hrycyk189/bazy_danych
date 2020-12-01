@@ -1,0 +1,33 @@
+LAB 06
+
+Zadanie 5 
+b)
+SELECT k.nazwa, k.rodzaj, k.dataUr FROM kreatura AS k, 
+	(SELECT MIN(dataUr) as minAge, MAX(dataUr) as maxAge FROM kreatura GROUP BY rodzaj) 
+	k WHERE k.minAge=k.dataUr OR k.maxAge=k.dataUR 
+	ORDER BY dataUr ASC;
+	
+	LAB 07
+	
+	ZADANIE 1 SPISEK
+	
+	A)
+	
+CREATE TABLE kreatura1 SELECT* FROM wikingowie.kreatura;
+CREATE TABLE uczestnicy1 SELECT* FROM wikingowie.kreatura;
+CREATE TABLE sektor1 SELECT* FROM wikingowie.sektor;
+CREATE TABLE etapy_wyprawy1 SELECT* FROM wikingowie.etapy_wyprawy;
+CREATE TABLE wyprawa1 SELECT* FROM wikingowie.wyprawa;
+CREATE TABLE uczestnicy1 SELECT* FROM wikingowie.uczestnicy;
+SELECT * FROM uczestnicy1;
+
+	B)
+SELECT kreatura.nazwa ,uczestnicy.id_uczestnika 
+FROM kreatura LEFT JOIN uczestnicy ON uczestnicy.id_uczestnika=kreatura.Idkreatury 
+WHERE uczestnicy.id_uczestnika IS NULL;
+
+	C)
+SELECT w.nazwa, SUM(k.udzwig) FROM wyprawa AS w
+INNER JOIN uczestnicy AS u ON u.id_wyprawy=w.id_wyprawy
+INNER JOIN kreatura AS k ON u.id_uczestnika=k.Idkreatury
+GROUP BY w.nazwa;
