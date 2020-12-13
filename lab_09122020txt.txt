@@ -1,0 +1,72 @@
+### ZADANIE 3 SPALONY
+
+1)
+DELIMITER $$
+CREATE PROCEDURE eliksir_sily(IN id int)
+BEGIN
+UPDATE kreatura SET udzwig = udzwig*1.2 WHERE idKreatury=id ;
+END
+$$ DELIMITER ;
+
+SELECT* FROM zasob;
+
+
+2)
+
+DELIMITER //
+CREATE FUNCTION wielki_tekst(TEXT)
+	RETURNS VARCHAR(100)
+BEGIN
+	DECLARE wielkie_litery VARCHAR(100);
+    SELECT UPPER(TEXT) INTO @wielkie_litery;
+    RETURN @wielkie_litery;
+END//
+    SELECT wielki_tekst(TEXT);
+	
+	
+### ZADANIE 4 SALWA ŚMIECHU
+
+1)
+CREATE TABLE system_alarmowy(
+id_alarmu INT PRIMARY KEY AUTO_INCREMENT,
+wiadomosc TEXT);
+DROP TABLE archiwum_wypraw;
+
+2)
+
+DELIMITER $$
+CREATE TRIGGER sprawdz_tesciowa
+AFTER INSERT ON wyprawa
+FOR EACH ROW
+BEGIN
+DECLARE zmienna INT;
+SELECT count(*) INTO zmienna
+FROM etapy_wyprawy AS e, kreatura AS k, wyprawa AS w, uczestnicy AS u
+WHERE e.idWyprawy=w.id_wyprawy AND k.idKreatury=u.id_uczestnika
+AND u.id_wyprawy=w.id_wyprawy
+AND k.nazwa='Tesciowa' AND e.sektor=7
+AND w.id_wyprawy=NEW.id_wyprawy;
+IF zmienna > 0
+THEN
+INSERT INTO system_alarmowy VALUES(DEFAULT, 'Tesciowa nadchodzi !!!');
+END IF;
+END
+$$
+DELIMITER;
+
+### ZADANIE 5 HAPPY END 
+
+TYLKO PIERWSZY PUNKT
+
+DELIMITER $$
+CREATE PROCEDURE parametry(
+OUT srednia_udzwigu FLOAT,
+OUT suma_udzwigu FLOAT,
+OUT maks_udzwigu FLOAT )
+BEGIN
+select AVG(udzwig) , SUM(udzwig) , MAX(udzwig)
+INTO @srednia_udzwigu, @suna_udzwigu, @maks_udzwigu
+FROM kreatura;
+END
+$$
+DELIMITER ;
