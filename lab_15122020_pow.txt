@@ -1,0 +1,38 @@
+SELECT * FROM adres_klienta;
+
+1)
+SELECT imie, nazwisko, nazwa FROM pracownik, dzial WHERE dzial.id_dzialu=pracownik.dzial;
+SELECT p.imie, p.nazwisko, d.nazwa FROM pracownik AS p INNER JOIN dzial AS d ON d.id_dzialu=p.dzial;
+2)
+SELECT t.nazwa_towaru, k.nazwa_kategori, s.ilosc FROM towar AS t 
+INNER JOIN kategoria AS k ON k.id_kategori=t.kategoria INNER JOIN stan_magazynowy AS s ON t.id_towaru=s.towar ORDER BY nazwa_towaru DESC;
+3)
+SELECT * FROM status_zamowienia;
+SELECT* FROM zamowienie;
+
+SELECT z.numer_zamowienia, st.nazwa_statusu_zamowienia FROM zamowienie AS z INNER JOIN
+ status_zamowienia AS st ON id_statusu_zamowienia=status_zamowienia WHERE status_zamowienia = 6;
+4)
+SELECT * FROM typ_adresu;
+SELECT * FROM adres_klienta;
+
+SELECT k.pelna_nazwa, a.ulica, a.kod, a.miejscowosc, ty.nazwa FROM klient AS k 
+INNER JOIN adres_klienta AS a ON id_klienta=klient INNER JOIN typ_adresu AS ty ON a.typ_adresu=ty.id_typu 
+WHERE a.miejscowosc='Olsztyn' AND ty.id_typu=1;
+5)
+SELECT* FROM stan_magazynowy;
+SELECT* FROM jednostka_miary;
+
+SELECT DISTINCT id_jednostki FROM jednostka_miary
+WHEREid_jednostki NOT IN  (SELECT DISTINCT jm FROM stan_magazynowy);
+6)
+SELECT* FROM zamowienie;
+SELECT* FROM pozycja_zamowienia;
+
+SELECT z.numer_zamowienia, t.nazwa_towaru, po.ilosc, po.cena FROM zamowienie AS z INNER JOIN
+pozycja_zamowienia AS po ON z.id_zamowienia=po.zamowienie INNER JOIN towar AS t ON t.id_towaru=po.towar 
+WHERE z.data_zamowienia  BETWEEN '1.01.2018' AND '31.12.2018'; 
+
+select z.numer_zamowienia, t.nazwa_towaru, pz.ilosc, pz.cena from zamowienie z, towar t, pozycja_zamowienia pz 
+where pz.towar = t.id_towaru and year(z.data_zamowienia) = 2018;
+
